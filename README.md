@@ -42,6 +42,11 @@ and for php 5.3
         ~$ cd ../php53/
         ~$ sudo docker build -t "php:5.3" .
 ```
+and for php 5.5
+```
+        ~$ cd ../php55/
+        ~$ sudo docker build -t "php:5.5" .
+```
 
 ##Usage:
 firt we need start the data continer because we need that for the other continers
@@ -72,13 +77,19 @@ Next we start php
 ```
             sudo docker run --name "php_54" -dti --volumes-from data_hub php:5.4
 ```
-And stop him because we want to start 5.3 aswell
+And stop him because we want to start 5.3 as well
 ```
             sudo docker stop php_54
 ```
 Next we start php 5.3
 ```
             sudo docker run --name "php_53" -dti --volumes-from data_hub php:5.3
+```
+And do the same for php 5.5
+```
+            sudo docker stop php_53
+            sudo docker run --name "php_55" -dti --volumes-from data_hub php:5.5
+
 ```
 And as last we start apache:
 ```

@@ -1,6 +1,6 @@
 ##Intro
 
-i made this LAMP with deferent contianers so it is easy controllable/scalable.
+i made this LAMP with different contianers so it is easy controllable/scalable.
 
 The all work independently but work with each other i used the data container.
 

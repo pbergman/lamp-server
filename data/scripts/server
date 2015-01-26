@@ -25,5 +25,5 @@ else
 fi
 
 if ! [[ -f ${SKELETON_FPM_POOL/pool.skeleton/${HOST}} ]]; then
-    cat ${SKELETON_FPM_POOL} | sed -e "s/{WEB_ROOT}/$(escape $WEB_ROOT)/g" -e "s/{HOST}/$(escape $HOST)/g" > ${SKELETON_FPM_POOL/pool.skeleton/${HOST}}
+    cat ${SKELETON_FPM_POOL} | sed -e "s/{WEB_ROOT}/$(escape $WEB_ROOT)/g" -e "s/{HOST}/$(escape $HOST)/g" > "${SKELETON_FPM_POOL/pool.skeleton/${HOST}}.conf"
 fi

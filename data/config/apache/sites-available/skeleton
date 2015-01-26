@@ -1,0 +1,19 @@
+<VirtualHost *:80>
+    DocumentRoot "{WEB_ROOT}/{HOST}"
+
+    ServerName {HOST}
+
+    SetEnv APPLICATION_ENV development
+
+    <Directory "{WEB_ROOT}/{HOST}">
+        AllowOverride All
+        allow from all
+        Options -Indexes
+    </Directory>
+
+    <IfModule mod_fastcgi.c>
+            Alias fcgi-bin/php5-fpm fcgi-bin-php5-fpm-{HOST}
+            FastCgiExternalServer fcgi-bin-php5-fpm-{HOST} -socket /etc/php5/fpm/sockets/{HOST}.sock -pass-header Authorization
+    </IfModule>
+
+</VirtualHost>

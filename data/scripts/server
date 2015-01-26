@@ -1,0 +1,29 @@
+#!/bin/bash
+
+WEB_ROOT=${WEB_ROOT:-/var/www}
+SKETETON_APACHE=${SKETETON_APACHE:-/etc/apache2/sites-available/skeleton}
+SKELETON_FPM_POOL=${SKELETON_FPM_POOL:-/etc/php5/fpm/pool.d/pool.skeleton}
+
+function escape() {
+    echo $1 | sed -e 's/[]\/$*.^|[]/\\&/g'
+}
+
+if [[ -z $1 ]]; then
+    read -p "Host name: " HOST
+else
+    HOST=$1
+fi
+
+if ! [[ -f ${SKETETON_APACHE/skeleton/${HOST}/} ]]; then
+    cd /etc/apache2/sites-enabled;
+    [[ ! -d "/var/www/${HOST}" ]] && mkdir -p "/var/www/${HOST}";
+    cat ${SKETETON_APACHE} | sed -e "s/{WEB_ROOT}/$(escape $WEB_ROOT)/g" -e "s/{HOST}/$(escape $HOST)/g" > ../sites-available/${HOST}
+    ln -sf ../sites-available/${HOST} ./$(printf %03d-%s "$(ls  /etc/apache2/sites-enabled/ | wc -l)" "${HOST}")
+else
+    echo "Host file for ${HOST} all ready exists";
+    exit 1;
+fi
+
+if ! [[ -f ${SKELETON_FPM_POOL/pool.skeleton/${HOST}} ]]; then
+    cat ${SKELETON_FPM_POOL} | sed -e "s/{WEB_ROOT}/$(escape $WEB_ROOT)/g" -e "s/{HOST}/$(escape $HOST)/g" > ${SKELETON_FPM_POOL/pool.skeleton/${HOST}}
+fi

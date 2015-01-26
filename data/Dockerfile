@@ -11,8 +11,16 @@ VOLUME ["/etc/apache2/sites-available/", \
         "/var/lib/mysql", \
         "/root/"]
 
+RUN mkdir -p /root/scripts/
+
 ADD config/nginx/   /etc/nginx/
 ADD config/apache/  /etc/apache2/
 ADD config/fpm/     /etc/php5/fpm/pool.d/
+ADD scripts/        /root/scripts
+
+## Set envs
+ENV HOME /root
+ENV USER root
+WORKDIR /root/
 
 CMD /bin/bash

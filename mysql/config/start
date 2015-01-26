@@ -29,8 +29,8 @@ if [[ ! -f "/root/.my.cnf" ]]; then
     /usr/bin/mysqladmin --silent --wait=30 ping || exit 40
     (cat <<EOF
 USE mysql;
-UPDATE user SET password=PASSWORD("${MYSQL_ROOT_PASSWORD}") where User="root";
 GRANT ALL PRIVILEGES ON *.* TO "root"@"%" WITH GRANT OPTION;
+UPDATE user SET password=PASSWORD("${MYSQL_ROOT_PASSWORD}") where User="root";
 FLUSH PRIVILEGES;
 EOF
     ) | mysql -v

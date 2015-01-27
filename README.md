@@ -67,11 +67,7 @@ to see root password:
 ```
 or
 ```
-            sudo docker exec -ti mysql bash
-```
-and in continainer:
-```
-            cat ~/.my
+            sudo docker exec -ti mysql cat /root/.my.cnf | grep password | awk '{ print $NF}'
 ```
 Next we start php
 ```

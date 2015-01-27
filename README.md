@@ -75,7 +75,11 @@ and in continainer:
 ```
 Next we start php
 ```
-            sudo docker run --name "php_54" -dti --volumes-from data_hub php:5.4
+            sudo docker run --name "php_54" \
+                            -dti \
+                            --volumes-from data_hub \
+                            --link mysql:mysql \
+                            php:5.4
 ```
 And stop him because we want to start 5.3 as well
 ```
@@ -83,12 +87,20 @@ And stop him because we want to start 5.3 as well
 ```
 Next we start php 5.3
 ```
-            sudo docker run --name "php_53" -dti --volumes-from data_hub php:5.3
+            sudo docker run --name "php_53" \
+                            -dti \
+                            --volumes-from data_hub \
+                            --link mysql:mysql \
+                            php:5.3
 ```
 And do the same for php 5.5
 ```
             sudo docker stop php_53
-            sudo docker run --name "php_55" -dti --volumes-from data_hub php:5.5
+            sudo docker run --name "php_55" \
+                            -dti \
+                            --volumes-from data_hub \
+                            --link mysql:mysql \
+                            php:5.5
 
 ```
 And as last we start apache:
@@ -97,7 +109,6 @@ And as last we start apache:
                             -dti \
                             -p 80:80 \
                             --volumes-from data_hub \
-                            --link mysql:mysql \
                             apache
 ```
 
@@ -107,3 +118,11 @@ so for example:
 ```
             sudo docker stop  php_53 && sudo docker start php_54
 ```
+you php should be able to connect with mysql as long you linked the php container with mysql conatiner,
+through the given alias. So with this eample you should be to connect with:
+
+    database_host:     mysql
+    database_port:     3306
+    database_user:     root
+
+for password see logs or the .my.cnf file in the mysql/data container
